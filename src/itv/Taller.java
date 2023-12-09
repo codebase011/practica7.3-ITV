@@ -83,19 +83,19 @@ public class Taller {
     }
 
     public String leerMatricula() {
-        GestorIO gestorIO = new GestorIO();
+        //GestorIO gestorIO = new GestorIO();
         String matricula;
 
         do {
             System.out.print(" ▶ Introdueix la matricula: ");
-            matricula = gestorIO.inString();
+            matricula = io.inString();
 
             if (!matricula.matches(Vehiculo.PATRON_MATRICULA)){
-                gestorIO.out("❌ Format de matrícula no vàlid.\n");
+                io.out("❌ Format de matrícula no vàlid.\n");
             }
             else{
                 if (colaInicial.tieneMatricula(matricula))
-                    gestorIO.out("❌ Matricula repetida.\n");
+                    io.out("❌ Matricula repetida.\n");
                 else
                     return matricula;
             }
@@ -103,15 +103,15 @@ public class Taller {
     }
 
     public String leerModelo() {
-        GestorIO gestorIO = new GestorIO();
+        //GestorIO gestorIO = new GestorIO();
         String modelo;
 
         do {
             System.out.print(" ▶ Introdueix el model: ");
-            modelo = gestorIO.inString();
+            modelo = io.inString();
 
             if (modelo.isBlank())
-                gestorIO.out("❌ Has d'introduir un model.\n");
+                io.out("❌ Has d'introduir un model.\n");
             else
                 return modelo;
         } while (true);
