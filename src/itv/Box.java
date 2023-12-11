@@ -42,30 +42,34 @@ public class Box {
         return false;
     }
 
-    public boolean esPrimeraFase(int indexFase){
+    // No usada
+/*     public boolean esPrimeraFase(int indexFase){
 
-    }
+    } */
 
     public void añadir(Vehiculo vehiculo){
         fasesRevision[0].asignarVehiculo(vehiculo);
     }
 
+    /**
+     * Pasa los vehiculos de una fase a la siguiente.
+     * Si la ultima fase (fase 4 (elemento 3 de array))
+     * tiene un vehiculo, se informa de que ha terminado
+     * la revisión. 
+     */
     public void pasarVehiculoDeFase(){
-        io.out("pasando vehiculos de fase\n");
+        io.out("✅ Pasant vehicles de fase\n");
 
-        for (int i = NUM_FASES - 1; i >= 0; i--){
-            // Si estoy en la ultima fase y hay un vehículo
-            // informar del vehiulo que sale
-            if (i == NUM_FASES - 1){
-                if (fasesRevision[i].tieneVehiculo()){
-                    io.out("\n✅ %s terminada revision\n\n", fasesRevision[i].getVehiculo().asString());
-                }
-            }
-            // Si no, mover el vehiculo a la siguiente fase
-            else{
-                fasesRevision[i+1].asignarVehiculo(fasesRevision[i].getVehiculo());
-                fasesRevision[i].desasignarVehiculo();
-            }
+        // Si la última fase tiene vehículo asignado, informar
+        // de que ha terminado la revisión
+        if (fasesRevision[NUM_FASES-1].tieneVehiculo()){
+            io.out("\n✅ %s terminada revision\n\n", fasesRevision[NUM_FASES-1].getVehiculo().asString());
+        }    
+
+        // Mover el resto de los vehiculos de fase
+        for (int i = NUM_FASES - 2; i >= 0; i--){
+            fasesRevision[i+1].asignarVehiculo(fasesRevision[i].getVehiculo());
+            fasesRevision[i].desasignarVehiculo();
         }
     }
 

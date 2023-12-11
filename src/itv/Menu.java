@@ -18,7 +18,7 @@ public class Menu {
             "Moure tots els vehicles de fase dins d’un box",
             "Informació de l'estat d'un box concret",
             "Informació general de tots els boxes",
-            "Eixir del programa"
+            "Eixir del programa",
     };
 
     private static final Interval OPCIONES_MENU_PRINCIPAL = new Interval(1, TITULOS_MENU_PRINCIPAL.length);
@@ -74,7 +74,7 @@ public class Menu {
             System.out.print("\n ▶ Introdueix una opció: ");
             if (!teclado.hasNextInt()) {
                 teclado.nextLine();
-                System.out.println("❌ Opció no vàlida");
+                System.out.println("❌ Valor no vàlid");
             } else {
                 opcionEscogida = teclado.nextInt();
                 teclado.nextLine();
@@ -91,7 +91,7 @@ public class Menu {
      * Obliga a pulsar la tecla [INTRO] para poder continuar
      */
     public static void esperar() {
-        gestorIO.out("Pulsa INTRO per a continuar...");
+        gestorIO.out("\nPulsa INTRO per a continuar...");
         gestorIO.inString();
         gestorIO.out("\n");
     }

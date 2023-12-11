@@ -33,6 +33,10 @@ public class Taller {
         System.out.printf("✅ Taller initzializat amb [%d] boxes\n\n", NUM_BOXES);
     }
 
+    /**
+     * Muestra el menú principal y se encarga de actuar en base
+     * a la opción seleccionada
+     */
     public void inicio() {
         // Menu menu = new Menu();
         colaInicial = new ColaInicial();
@@ -49,11 +53,10 @@ public class Taller {
             switch (opcionEscogida) {
                 case 1:
                     colaInicial.añadir(recogerVehiculo());
-                    Menu.esperar();
+                    colaInicial.mostrar();
                     break;
                 case 2:              
                     reclamarVehiclePerAEntrarAlBox();
-                    Menu.esperar();
                     break;
                 case 3:
                     Box box = leerBox();
@@ -62,11 +65,9 @@ public class Taller {
                 case 4:
                     Box boxB = leerBox();
                     boxB.mostrar();
-                    Menu.esperar();
                     break;
                 case 5:
                     mostrarBoxes(false);
-                    Menu.esperar();
                     break;
                 case 6:
                     io.out(" Bye! 👋");
@@ -75,6 +76,10 @@ public class Taller {
                 default:
                     break;
             }
+
+            // Si no se quiere salir del programa,
+            // Hacer una "pausa" antes de mostrar el menú de nuevo
+            if (!salir) Menu.esperar();
         }
     }
 
@@ -88,8 +93,13 @@ public class Taller {
         return new Vehiculo(matricula, modelo, tipoVehiculo);
     }
 
+    /**
+     * Pide la matricula y comprueba que sea del formato
+     * correcto y no esté repetida
+     * @return
+     */
     public String leerMatricula() {
-        //GestorIO gestorIO = new GestorIO();
+        //GestorIO io = new GestorIO();
         String matricula;
 
         do {
@@ -108,8 +118,12 @@ public class Taller {
         } while (true);
     }
 
+    /**
+     * Pide que se introduzca un modelo por teclado
+     * @return El modelo introducido
+     */
     public String leerModelo() {
-        //GestorIO gestorIO = new GestorIO();
+        //GestorIO io = new GestorIO();
         String modelo;
 
         do {
@@ -127,17 +141,23 @@ public class Taller {
         return TipoVehiculo.values()[Menu.leerOpcion() - 1];
     }
 
+    /**
+     * Saca un vehículo de la cola y lo introduce en el Box
+     * seleccionado
+     */
     public void reclamarVehiclePerAEntrarAlBox() {
         if (colaInicial.estaVacia()) {
             io.out("❌ No hi ningú vehicle a la cola de espera.\n");
         } else {
             io.out("🔹 Próxim vehicle: %s\n", colaInicial.getVehiculos()[0].asString());
-            mostrarBoxes(true);
+            io.out("\n Boxs LLiures\n");
+            io.out(" ────────────\n");
+            mostrarBoxes(true); 
             Box box = leerBox();
             if (box.estaLibre()) {
                 Vehiculo vehiculoQueSaleDeLaCola = colaInicial.sacar();
                 box.añadir(vehiculoQueSaleDeLaCola);
-                io.out("✅ Vehicle %s afegit al box [%d].\n",
+                io.out("\n✅ Vehicle %s afegit al box [%d].\n",
                         vehiculoQueSaleDeLaCola.asString(),
                         box.getId() + 1);
                 //box.mostrar();
@@ -147,12 +167,17 @@ public class Taller {
         }
     }
 
+    /**
+     * Pide el id de un box y devuelve el objecto Box en particular
+     * @return Box seleccionado
+     */
     public Box leerBox() {
         int numBox;
         Interval interval = new Interval(1, NUM_BOXES);
 
         do {
-            io.out(" ▶ Introdueix el id de box [1-%d]: ", NUM_BOXES);
+            //io.out(" ▶ Introdueix el id de box [1-%d]: ", NUM_BOXES);
+            io.out(" ▶ Introdueix el id de box: ");
             if (!interval.inclou(numBox = io.inInt())) {
                 io.out("❌ Box incorrecte\n");
             } else
@@ -171,9 +196,21 @@ public class Taller {
         for (Box box : boxes) {
             if (mostrarSoloBoxesLibres) {
                 if (box.estaLibre())
-                    io.out("Box %d\n", box.getId() + 1);
+                    io.out(" Box %d\n", box.getId() + 1);
             } else
                 box.mostrar();
         }
+    }
+
+    /**
+     * Comprueba si hay algun box libre o si están todos ocupados
+     * @return
+     */
+    public boolean hayBoxesLibres(){
+        for (Box b : boxes) {
+            if (b.estaLibre()) return true;
+        }
+
+        return false;
     }
 }

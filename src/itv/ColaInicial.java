@@ -73,7 +73,13 @@ public class ColaInicial {
     }
 
     public void mostrar() {
+        io.out("┌─────────────────────────────────────────┐\n");
+        io.out("│              📄 Cúa Actual              │\n");
+        io.out("└─────────────────────────────────────────┘\n");
 
+        for (int i = 0; i < vehiculos.length; i++){
+            io.out("%d. %s\n", i + 1, vehiculos[i].asString());
+        }
     }
 
     public boolean tieneMatricula(String matricula) {
